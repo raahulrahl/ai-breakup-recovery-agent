@@ -25,11 +25,6 @@
   "num_history_sessions": 5,
   "environment_variables": [
     {
-      "key": "GEMINI_API_KEY",
-      "description": "Google Gemini API key for LLM calls and vision analysis",
-      "required": false
-    },
-    {
       "key": "OPENROUTER_API_KEY",
       "description": "OpenRouter API key for text-only fallback",
       "required": true
