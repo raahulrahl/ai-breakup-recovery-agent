@@ -44,20 +44,14 @@ async def _run_agent_text(agent: Any, text: str) -> Any:
 # -------------------------
 def load_config() -> dict[str, Any]:
     """Load agent config from `agent_config.json` or return defaults."""
-    possible_paths = [
-        Path(__file__).parent.parent / "agent_config.json",
-        Path(__file__).parent / "agent_config.json",
-        Path.cwd() / "agent_config.json",
-    ]
+    config_path = Path(__file__).parent / "agent_config.json"
 
-    for config_path in possible_paths:
-        if config_path.exists():
-            try:
-                with open(config_path) as f:
-                    return cast(dict[str, Any], json.load(f))
-            except (OSError, json.JSONDecodeError) as exc:
-                _logger.warning("Failed to load config from %s", config_path, exc_info=exc)
-                continue
+    if config_path.exists():
+        try:
+            with open(config_path) as f:
+                return cast(dict[str, Any], json.load(f))
+        except (OSError, json.JSONDecodeError) as exc:
+            _logger.warning("Failed to load config from %s", config_path, exc_info=exc)
 
     return {
         "name": "ai-breakup-recovery-agent",
