@@ -155,7 +155,6 @@ For complete API documentation, request/response formats, and examples, visit:
 ### Additional Resources
 
 - 📖 [Full API Documentation](https://docs.getbindu.com/api-reference/all-the-tasks/send-message-to-agent)
-- 📦 [Postman Collections](https://github.com/GetBindu/Bindu/tree/main/postman/collections)
 - 🔧 [API Reference](https://docs.getbindu.com)
 
 ---
