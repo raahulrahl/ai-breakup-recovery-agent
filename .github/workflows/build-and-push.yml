@@ -29,7 +29,7 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: raahulrahl
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Read version
@@ -46,12 +46,12 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            raahulrahl/ai-breakup-recovery-agent:latest
-            raahulrahl/ai-breakup-recovery-agent:${{ steps.version.outputs.version }}
-            raahulrahl/ai-breakup-recovery-agent:build-${{ github.run_number }}
-            raahulrahl/ai-breakup-recovery-agent:${{ github.sha }}
-          cache-from: type=registry,ref=raahulrahl/ai-breakup-recovery-agent:buildcache
-          cache-to: type=registry,ref=raahulrahl/ai-breakup-recovery-agent:buildcache,mode=max
+            ${{ secrets.DOCKERHUB_USERNAME }}/ai-breakup-recovery-agent:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/ai-breakup-recovery-agent:${{ steps.version.outputs.version }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/ai-breakup-recovery-agent:build-${{ github.run_number }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/ai-breakup-recovery-agent:${{ github.sha }}
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/ai-breakup-recovery-agent:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/ai-breakup-recovery-agent:buildcache,mode=max
 
       - name: Read agent config
         id: agent_config
@@ -94,7 +94,7 @@ jobs:
             "deployment": {
               "url": "${{ fromJson(steps.agent_config.outputs.config).deployment.url }}",
               "protocol_version": "${{ fromJson(steps.agent_config.outputs.config).deployment.protocol_version }}",
-              "docker_image": "raahulrahl/ai-breakup-recovery-agent:latest",
+              "docker_image": "${{ secrets.DOCKERHUB_USERNAME }}/ai-breakup-recovery-agent:latest",
               "docker_digest": "${{ steps.docker_build.outputs.digest }}",
               "platforms": ["linux/amd64", "linux/arm64"]
             },
@@ -104,7 +104,7 @@ jobs:
               "build_number": "${{ github.run_number }}"
             },
             "metadata": {
-              "documentation_url": "https://raahulrahl.github.io/ai-breakup-recovery-agent/",
+              "documentation_url": "https://github.com/${{ github.repository }}#readme",
               "domain": "${{ fromJson(steps.agent_config.outputs.config).metadata.domain || 'general' }}",
               "specialization": "${{ fromJson(steps.agent_config.outputs.config).metadata.specialization || 'multi-purpose' }}",
               "last_updated": "${{ github.event.head_commit.timestamp }}"
